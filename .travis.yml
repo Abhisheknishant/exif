@@ -46,14 +46,29 @@ matrix:
     dist: bionic
     compiler: gcc
   - env: CONFIG=normal DIST=bionic
+    arch: arm64
+    os: linux
+    dist: bionic
+    compiler: gcc
+  - env: CONFIG=normal DIST=bionic
     os: linux
     dist: bionic
     compiler: clang
-  - env: CONFIG=normal DIST=focal
+ - env: CONFIG=normal DIST=bionic
+    arch: arm64
+    os: linux
+    dist: bionic
+    compiler: clang
+ - env: CONFIG=normal DIST=focal
     os: linux
     dist: focal
     compiler: gcc
-  - env: CONFIG=normal DIST=focal
+ - env: CONFIG=normal DIST=focal
+    arch: arm64
+    os: linux
+    dist: focal
+    compiler: gcc
+ - env: CONFIG=normal DIST=focal
     os: linux
     dist: focal
     compiler: clang
@@ -67,6 +82,23 @@ matrix:
           - autopoint
           - clang-6.0
           - libpopt-dev
+  - env: CONFIG=normal DIST=focal
+    arch: arm64
+    os: linux
+    dist: focal
+    compiler: clang
+  - env: CONFIG=clang6 DIST=xenial
+    arch: arm64
+    os: linux
+    dist: xenial
+    compiler: clang
+    addons:
+      apt:
+        packages:
+          - autopoint
+          - clang-6.0
+          - libpopt-dev
+ 
   - env: CONFIG=clang8 DIST=xenial
     os: linux
     dist: xenial
@@ -97,6 +129,39 @@ matrix:
           - autopoint
           - clang-9
           - libpopt-dev
+  - env: CONFIG=clang8 DIST=xenial
+    arch: arm64
+    os: linux
+    dist: xenial
+    compiler: clang
+    addons:
+      apt:
+        sources:
+          sourceline:
+            - deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-8 main
+          key_url:
+            - https://apt.llvm.org/llvm-snapshot.gpg.key
+        packages:
+          - autopoint
+          - clang-8
+          - libpopt-dev
+  - env: CONFIG=clang9 DIST=xenial
+    arch: arm64
+    os: linux
+    dist: xenial
+    compiler: clang
+    addons:
+      apt:
+        sources:
+          sourceline:
+            - deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-9 main
+          key_url:
+            - https://apt.llvm.org/llvm-snapshot.gpg.key
+        packages:
+          - autopoint
+          - clang-9
+          - libpopt-dev
+
   - env: CONFIG=clang10 DIST=xenial
     os: linux
     dist: xenial
@@ -125,6 +190,21 @@ matrix:
           - autopoint
           - g++-8
           - libpopt-dev
+  - env: CONFIG=gcc8 DIST=xenial
+    arch: arm64
+    os: linux
+    dist: xenial
+    compiler: gcc
+    addons:
+      apt:
+        sources:
+          sourceline:
+            - ppa:ubuntu-toolchain-r/test
+        packages:
+          - autopoint
+          - g++-8
+          - libpopt-dev
+
   - env: CONFIG=gcc9 DIST=xenial
     os: linux
     dist: xenial
@@ -138,6 +218,21 @@ matrix:
           - autopoint
           - g++-9
           - libpopt-dev
+  - env: CONFIG=gcc9 DIST=xenial
+    arch: arm64
+    os: linux
+    dist: xenial
+    compiler: gcc
+    addons:
+      apt:
+        sources:
+          sourceline:
+            - ppa:ubuntu-toolchain-r/test
+        packages:
+          - autopoint
+          - g++-9
+          - libpopt-dev
+
   - env: CONFIG=arm-cross
     os: linux
     compiler: gcc
@@ -150,6 +245,20 @@ matrix:
     cache:
       directories:
         - $HOME/popt
+  - env: CONFIG=arm-cross
+    arch: arm64
+    os: linux
+    compiler: gcc
+    addons:
+      apt:
+        packages:
+          - autopoint
+          - gcc-4.8-arm-linux-gnueabihf
+          - libc6-dev-armhf-cross
+    cache:
+      directories:
+        - $HOME/popt
+
   - env: CONFIG=musl DIST=xenial
     os: linux
     dist: xenial
@@ -162,6 +271,20 @@ matrix:
     cache:
       directories:
         - $HOME/popt
+  - env: CONFIG=musl DIST=xenial
+    arch: arm64
+    os: linux
+    dist: xenial
+    compiler: gcc
+    addons:
+      apt:
+        packages:
+          - autopoint
+          - musl-tools
+    cache:
+      directories:
+        - $HOME/popt
+
   - env: CONFIG=sanitize DIST=xenial
     os: linux
     dist: xenial
@@ -183,6 +306,29 @@ matrix:
     # Required for -fsanitize=undefined
     # see https://github.com/travis-ci/travis-ci/issues/9033
     sudo: required
+  - env: CONFIG=sanitize DIST=xenial
+    arch: arm64
+    os: linux
+    dist: xenial
+    compiler: clang
+    addons:
+      apt:
+        sources:
+          sourceline:
+            - deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-10 main
+          key_url:
+            - https://apt.llvm.org/llvm-snapshot.gpg.key
+        packages:
+          - autopoint
+          - clang-10
+          - libtool
+    cache:
+      directories:
+        - $HOME/popt
+    # Required for -fsanitize=undefined
+    # see https://github.com/travis-ci/travis-ci/issues/9033
+    sudo: required
+
   - env: CONFIG=coverage DIST=xenial
     os: linux
     dist: xenial
@@ -193,6 +339,18 @@ matrix:
           - autopoint
           - libpopt-dev
           - subversion
+  - env: CONFIG=coverage DIST=xenial
+    arch: arm64
+    os: linux
+    dist: xenial
+    compiler: gcc
+    addons:
+      apt:
+        packages:
+          - autopoint
+          - libpopt-dev
+          - subversion
+
   - env: CONFIG=normal
     os: osx
     osx_image: xcode11
